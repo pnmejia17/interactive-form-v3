@@ -1,11 +1,11 @@
 
-//* 3 Name Field
+// 2 Name Field
 
 //use focus method on the input type text for "Name" field
 const nameField = document.getElementById('name');
 nameField.focus();
 
-//4 Job Role Section
+//3 Job Role Section
 
 // jobselect
 const jobSelect=document.getElementById('title');
@@ -26,7 +26,7 @@ jobSelect.addEventListener("change", (e) => {
 })
 
 
-// 5 T-Shirt Info Section
+// 4 T-Shirt Info Section
 
 //disable color select element
 const colorSelect = document.getElementById('color');
@@ -59,7 +59,7 @@ designSelect.addEventListener("change", () => {
     }
 })
 
-// 6 Activities Section
+// 5 Activities Section
 
 // select fieldset to add event listener to it
 const activitiesRegistry = document.getElementById('activities')
@@ -84,7 +84,9 @@ activitiesRegistry.addEventListener('change', event => {
     }
 })
 
-// 7 Payment Info Section
+// 6 Payment Info Section
+
+//only displays the selected pyment method
 
 
 const paymentMethod = document.getElementById('payment')
@@ -113,7 +115,10 @@ paymentMethod.addEventListener( 'change', event => {
     }
 })
 
-// 8 Form Validation
+// 7 Form Validation
+
+// uses regex expressions to validate whether the correct info
+// has been entered into the fields before allowing form to submit
 
 
 const form = document.querySelector('form')
@@ -130,12 +135,49 @@ form.addEventListener ('submit', event => {
     const zipValue = zipCode.value
     const cvvValue = cvv.value
 
-    const nameIsValid = /^[A-Za-z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue)
-    const emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue)
-    const cardIsValid = /^\d{13,16}$/.test(cardValue)
-    const zipIsValid = /^\d{5}$/.test(zipValue)
-    const cvvIsValid = /^\d{3}$/.test(cvvValue);
+    const nameValid = /^[A-Za-z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue)
+    const emailValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue)
+    const cardValid = /^\d{13,16}$/.test(cardValue)
+    const zipValid = /^\d{5}$/.test(zipValue)
+    const cvvValid = /^\d{3}$/.test(cvvValue);
 
-    if (!nameIsValid || !emailIsValid || !cardIsValid || !zipIsValid || !cvvIsValid){
+    // Calls visual validation function below
+    visualValid(nameValid, nameField)
+    visualValid(emailValid, emailAddress)
+    visualValid(cardValid, cardNum)
+    visualValid(zipValid, zipCode)
+    visualValid(cvvValid, cvv)
+
+    if (!nameValid || !emailValid || !cardValid || !zipValid || !cvvValid){
         event.preventDefault()
     } else {}})
+
+// 8 The Activities Section
+
+// improves accessibilty by adding focus 
+// class to elements as you focus on them 
+
+for (let i=0; i < activitiesRegistry.length; i++) {
+    activitiesRegistry[i].addEventListener('focus', (e) => {
+        activitiesRegistry[i].parentElement.classList.add('focus')
+    })
+    activitiesRegistry[i].addEventListener('blur', (e) => {
+        activitiesRegistry[i].parentElement.classList.remove('focus')
+})}
+
+// 9 Visual Validation Errors 
+
+// gives visual validator for valid elements
+// in form
+
+function visualValid(validElement, element){
+    if (validElement){
+        element.parentElement.classList.add('valid')
+        element.parentElement.classList.remove('not-valid')
+        element.parentElement.lastElementChild.style.display = 'none'
+    } if (!validElement) {
+        element.parentElement.classList.add('.not-valid')
+        element.parentElement.classList.remove('valid')
+        element.parentElement.lastElementChild.style.display = ""
+    }
+}
