@@ -1,11 +1,11 @@
 
-//* 2 Name Field
+//* 3 Name Field
 
 //use focus method on the input type text for "Name" field
-const nameField = document.getElementById("name");
+const nameField = document.getElementById('name');
 nameField.focus();
 
-//3 Job Role Section
+//4 Job Role Section
 
 // jobselect
 const jobSelect=document.getElementById('title');
@@ -26,7 +26,7 @@ jobSelect.addEventListener("change", (e) => {
 })
 
 
-// 4 T-Shirt Info Section
+// 5 T-Shirt Info Section
 
 //disable color select element
 const colorSelect = document.getElementById('color');
@@ -59,7 +59,7 @@ designSelect.addEventListener("change", () => {
     }
 })
 
-// 5 Activities Section
+// 6 Activities Section
 
 // select fieldset to add event listener to it
 const activitiesRegistry = document.getElementById('activities')
@@ -84,7 +84,7 @@ activitiesRegistry.addEventListener('change', event => {
     }
 })
 
-// 6 Payment Info Section
+// 7 Payment Info Section
 
 
 const paymentMethod = document.getElementById('payment')
@@ -112,3 +112,30 @@ paymentMethod.addEventListener( 'change', event => {
         creditCard.style.display = 'none';
     }
 })
+
+// 8 Form Validation
+
+
+const form = document.querySelector('form')
+const emailAddress = document.getElementById('email')
+const cardNum  = document.getElementById('cc-num')
+const zipCode = document.getElementById('zip')
+const cvv = document.getElementById('cvv')
+
+
+form.addEventListener ('submit', event => {
+    const nameValue = nameField.value
+    const emailValue = emailAddress.value
+    const cardValue = cardNum.value
+    const zipValue = zipCode.value
+    const cvvValue = cvv.value
+
+    const nameIsValid = /^[A-Za-z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue)
+    const emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue)
+    const cardIsValid = /^\d{13,16}$/.test(cardValue)
+    const zipIsValid = /^\d{5}$/.test(zipValue)
+    const cvvIsValid = /^\d{3}$/.test(cvvValue);
+
+    if (!nameIsValid || !emailIsValid || !cardIsValid || !zipIsValid || !cvvIsValid){
+        event.preventDefault()
+    } else {}})
