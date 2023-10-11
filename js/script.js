@@ -47,8 +47,7 @@ designSelect.addEventListener("change", () => {
 
     for (let i=0; i < colorSelect.options.length; i++){
         const theme = colorSelect.options[i].getAttribute('data-theme');
-        console.log(theme)
-        
+
         if(theme === design){
             colorSelect.options[i].style.display = '';
             colorSelect.options[i].selected = true;
@@ -64,6 +63,7 @@ designSelect.addEventListener("change", () => {
 // select fieldset to add event listener to it
 const activitiesRegistry = document.getElementById('activities')
 const activitiesCost = document.getElementById('activities-cost')
+const checkboxes = activitiesRegistry.querySelectorAll("input[type='checkbox']")
 let totalActivitiesCost = 0
 
 // add Event Listener to Register for Activities fieldset element to listen for changes
@@ -87,7 +87,6 @@ activitiesRegistry.addEventListener('change', event => {
 // 6 Payment Info Section
 
 //only displays the selected pyment method
-
 
 const paymentMethod = document.getElementById('payment')
 paymentMethod[1].setAttribute('selected', 'selected')
@@ -128,7 +127,7 @@ const zipCode = document.getElementById('zip')
 const cvv = document.getElementById('cvv')
 
 
-form.addEventListener ('submit', event => {
+form.addEventListener ('submit', (event) => {
     const nameValue = nameField.value
     const emailValue = emailAddress.value
     const cardValue = cardNum.value
@@ -137,32 +136,42 @@ form.addEventListener ('submit', event => {
 
     const nameValid = /^[A-Za-z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue)
     const emailValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue)
+    
     const cardValid = /^\d{13,16}$/.test(cardValue)
     const zipValid = /^\d{5}$/.test(zipValue)
-    const cvvValid = /^\d{3}$/.test(cvvValue);
+    const cvvValid = /^\d{3}$/.test(cvvValue)
 
-    // Calls visual validation function below
-    visualValid(nameValid, nameField)
-    visualValid(emailValid, emailAddress)
+    const actValid = totalActivitiesCost > 0
+
+    if (paymentMethod.value === 'credit-card'){
     visualValid(cardValid, cardNum)
     visualValid(zipValid, zipCode)
-    visualValid(cvvValid, cvv)
+    visualValid(cvvValid, cvv)}
 
-    if (!nameValid || !emailValid || !cardValid || !zipValid || !cvvValid){
+    if (!nameValid || 
+        !emailValid || 
+        !actValid)
+        {event.preventDefault();
+    } if (paymentMethod.value === 'credit-card' && 
+    (!cardValid || !zipValid || !cvvValid )) {
         event.preventDefault()
-    } else {}})
+    }
+    visualValid(nameValid, nameField)
+    visualValid(emailValid, emailAddress)
+})
+
 
 // 8 The Activities Section
 
 // improves accessibilty by adding focus 
 // class to elements as you focus on them 
 
-for (let i=0; i < activitiesRegistry.length; i++) {
-    activitiesRegistry[i].addEventListener('focus', (e) => {
-        activitiesRegistry[i].parentElement.classList.add('focus')
+for (let i=0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener('focus', (e) => {
+        checkboxes[i].parentElement.classList.add('focus')
     })
-    activitiesRegistry[i].addEventListener('blur', (e) => {
-        activitiesRegistry[i].parentElement.classList.remove('focus')
+    checkboxes[i].addEventListener('blur', (e) => {
+        checkboxes[i].parentElement.classList.remove('focus')
 })}
 
 // 9 Visual Validation Errors 
@@ -176,8 +185,7 @@ function visualValid(validElement, element){
         element.parentElement.classList.remove('not-valid')
         element.parentElement.lastElementChild.style.display = 'none'
     } if (!validElement) {
-        element.parentElement.classList.add('.not-valid')
+        element.parentElement.classList.add('not-valid')
         element.parentElement.classList.remove('valid')
-        element.parentElement.lastElementChild.style.display = ""
-    }
-}
+        element.parentElement.lastElementChild.style.display = 'block'
+    }}
