@@ -158,6 +158,8 @@ form.addEventListener ('submit', (event) => {
     }
     visualValid(nameValid, nameField)
     visualValid(emailValid, emailAddress)
+    visualValid(actValid, activitiesRegistry)
+
 })
 
 
