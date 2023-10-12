@@ -187,7 +187,14 @@ function visualValid(validElement, element){
         element.parentElement.classList.remove('not-valid')
         element.parentElement.lastElementChild.style.display = 'none'
     } if (!validElement) {
+
+        if (element === activitiesRegistry){
+            element.parentElement.classList.add('not-valid')
+            element.parentElement.classList.remove('valid')
+            element.lastElementChild.style.display = 'block'
+        } else {
         element.parentElement.classList.add('not-valid')
         element.parentElement.classList.remove('valid')
         element.parentElement.lastElementChild.style.display = 'block'
-    }}
+        console.log(element.parentElement.lastElementChild)
+    }}}
